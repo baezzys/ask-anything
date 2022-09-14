@@ -3,7 +3,7 @@ import { MOBILE_WIDTH } from 'const/style';
 import React, { ReactNode } from 'react';
 import colors from 'utils/style/colors';
 import pxToRem from 'utils/style/pxToRem';
-import Nav from './Molecule/Nav';
+import Header from './Molecule/Header';
 
 type LayoutProps = {
   children: ReactNode;
@@ -12,7 +12,7 @@ type LayoutProps = {
 const Layout = ({ children }: LayoutProps) => (
   <div css={layoutContainer}>
     <div css={layout}>
-      <Nav />
+      <Header />
       {children}
     </div>
   </div>
