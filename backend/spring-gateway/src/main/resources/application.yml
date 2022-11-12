@@ -12,6 +12,12 @@ spring:
         name: gateway
     cloud:
         gateway:
+            globalcors:
+              cors-configurations:
+                '[/**]':
+                  allowedOrigins: "*"
+                  allowedMethods: "*"
+              add-to-simple-url-handler-mapping: true
             routes:
                 - id: post-service
                   uri: http://127.0.0.1:8040
@@ -19,3 +25,9 @@ spring:
                       - Path=/post/**
                   filters:
                       - TokenRelay=
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
