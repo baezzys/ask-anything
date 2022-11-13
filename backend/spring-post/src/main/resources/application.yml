@@ -2,6 +2,9 @@ server:
   port: 8040
 
 spring:
+  main:
+    web-application-type: reactive
+    allow-bean-definition-overriding: true
   h2:
     console:
       enabled: true
