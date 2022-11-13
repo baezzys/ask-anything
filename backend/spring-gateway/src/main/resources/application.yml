@@ -13,11 +13,13 @@ spring:
     cloud:
         gateway:
             globalcors:
-              cors-configurations:
+              corsConfigurations:
                 '[/**]':
-                  allowedOrigins: "*"
-                  allowedMethods: "*"
-              add-to-simple-url-handler-mapping: true
+                  allowedOrigins: "http://localhost:3000"
+                  allowedHeaders: "*"
+                  allowedMethods:
+                    - GET
+                    - POST
             routes:
                 - id: post-service
                   uri: http://127.0.0.1:8040
