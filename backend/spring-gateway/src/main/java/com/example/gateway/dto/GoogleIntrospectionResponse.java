@@ -10,6 +10,8 @@ public class GoogleIntrospectionResponse{
     String sub;
     String scope;
 
+    String name;
+
     String exp;
 
     String expires_in;
@@ -52,5 +54,9 @@ public class GoogleIntrospectionResponse{
 
     public String getAccess_type() {
         return access_type;
+    }
+
+    public String getName() {
+        return name;
     }
 }
