@@ -1,4 +1,9 @@
 spring:
+    datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/ask_anything?serverTimezone=UTC&characterEncoding=UTF-8
+      username: ${mysql_user}
+      password: ${mysql_password}
     main:
       web-application-type: reactive
       allow-bean-definition-overriding: true

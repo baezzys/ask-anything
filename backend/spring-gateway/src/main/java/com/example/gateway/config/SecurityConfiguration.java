@@ -84,7 +84,8 @@ public class SecurityConfiguration {
                     "aud", googleIntrospectionResponse.getAud(),
                     "sub", googleIntrospectionResponse.getSub(),
                     "email", googleIntrospectionResponse.getEmail(),
-                    "email_verified", googleIntrospectionResponse.getEmail_verified());
+                    "email_verified", googleIntrospectionResponse.getEmail_verified(),
+                    "name", googleIntrospectionResponse.getName());
         }
 
         private List<GrantedAuthority> parseScopeAuthorities(
