@@ -1,0 +1,35 @@
+spring:
+    main:
+      web-application-type: reactive
+      allow-bean-definition-overriding: true
+    security:
+      oauth2:
+        resourceserver:
+          jwt:
+            issuer-uri: https://accounts.google.com
+            jwk-set-uri: https://www.googleapis.com/oauth2/v3/certs
+    application:
+        name: gateway
+    cloud:
+        gateway:
+            globalcors:
+              corsConfigurations:
+                '[/**]':
+                  allowedOrigins: "http://localhost:3000"
+                  allowedHeaders: "*"
+                  allowedMethods:
+                    - GET
+                    - POST
+            routes:
+                - id: post-service
+                  uri: http://127.0.0.1:8040
+                  predicates:
+                      - Path=/post/**
+                  filters:
+                      - TokenRelay=
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
