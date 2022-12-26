@@ -1,0 +1,25 @@
+version: '0.1'
+
+services:
+  ask-anything-db:
+    platform: linux/x86_64
+    image: mysql:5.7
+    container_name: ask-anything-db
+    volumes:
+      - ./ask-anything.sql:/docker-entrypoint-initdb.d/initdb.sql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "3300:3306"
+
+  ask-anything-gateway:
+    container_name: ask-anything-gateway
+    build:
+      context: .
+    ports:
+      - "8084:8080"
+    depends_on:
+      - ask-anything-db
+    restart: on-failure
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://ask-anything-db:3300/ask_anything?useSSL=false

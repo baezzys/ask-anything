@@ -1,4 +1,4 @@
-package com.example.gateway.router;
+package com.example.gateway.utils.router;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.factory.TokenRelayGatewayFilterFactory;
