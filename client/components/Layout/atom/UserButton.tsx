@@ -1,16 +1,28 @@
-import { css } from '@emotion/react';
-import A11yHidden from 'components/common/A11yHidden';
-import { useState } from 'react';
-import { MdKeyboardArrowDown } from 'react-icons/md';
-import { FaUserAlt, FaSignOutAlt } from 'react-icons/fa';
-import { BsFillGearFill } from 'react-icons/bs';
-import pxToRem from 'utils/style/pxToRem';
+import { css } from "@emotion/react";
+import A11yHidden from "components/common/A11yHidden";
+import { useState } from "react";
+import { MdKeyboardArrowDown } from "react-icons/md";
+import { FaUserAlt, FaSignOutAlt } from "react-icons/fa";
+import { BsFillGearFill } from "react-icons/bs";
+import pxToRem from "utils/style/pxToRem";
+import useClickEvent from "hook/useClickEvent";
+import useKeyboardEvent from "hook/useKeyboardEvent";
 
 const UserButton = () => {
   const [isOpened, setIsOpened] = useState(false);
 
+  const close = (e: Event) => {
+    const target = e.target as Element;
+    if (!target || target.closest("#userButton")) return;
+
+    setIsOpened(false);
+  };
+
+  useClickEvent(close);
+  useKeyboardEvent("Escape", () => setIsOpened(false));
+
   return (
-    <div css={container}>
+    <div id="userButton" css={container}>
       <button
         css={button}
         type="button"
@@ -50,6 +62,7 @@ const container = css`
 const button = css`
   display: flex;
   align-items: center;
+  outline: none;
 `;
 
 const dropDown = css`
