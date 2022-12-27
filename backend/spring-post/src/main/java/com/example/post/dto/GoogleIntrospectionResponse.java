@@ -7,15 +7,21 @@ import lombok.*;
 @Data
 public class GoogleIntrospectionResponse{
     String azp;
+
     String name;
+
     String aud;
+
     String sub;
+
     String scope;
 
     String exp;
 
     String expires_in;
+
     String email;
+
     String email_verified;
 
     String access_type;

@@ -1,9 +1,7 @@
+server:
+  address: 0.0.0.0
+
 spring:
-    datasource:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/ask_anything?serverTimezone=UTC&characterEncoding=UTF-8
-      username: ${mysql_user}
-      password: ${mysql_password}
     main:
       web-application-type: reactive
       allow-bean-definition-overriding: true
@@ -17,14 +15,6 @@ spring:
         name: gateway
     cloud:
         gateway:
-            globalcors:
-              corsConfigurations:
-                '[/**]':
-                  allowedOrigins: "http://localhost:3000"
-                  allowedHeaders: "*"
-                  allowedMethods:
-                    - GET
-                    - POST
             routes:
                 - id: post-service
                   uri: http://127.0.0.1:8040
@@ -32,9 +22,9 @@ spring:
                       - Path=/post/**
                   filters:
                       - TokenRelay=
-
 logging:
-  level:
-    org:
+  org:
       springframework:
         security: DEBUG
+  level:
+    sql: debug

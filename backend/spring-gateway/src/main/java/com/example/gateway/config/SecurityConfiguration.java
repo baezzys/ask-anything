@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,9 @@ import org.springframework.security.oauth2.server.resource.introspection.OAuth2I
 import org.springframework.security.oauth2.server.resource.introspection.ReactiveOpaqueTokenIntrospector;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository;
+import org.springframework.security.web.server.csrf.CookieServerCsrfTokenRepository;
+import org.springframework.web.cors.reactive.CorsConfigurationSource;
+import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -29,14 +33,14 @@ import reactor.core.publisher.Mono;
 public class SecurityConfiguration {
 
     Log log = LogFactory.getLog(SecurityConfiguration.class);
-
     @Bean
     public SecurityWebFilterChain webFilterChain(ServerHttpSecurity http) {
         http
-                .formLogin().disable()
-                .httpBasic().disable()
-                .logout().disable()
-                .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
+                .cors()
+                .and()
+                .csrf()
+                .csrfTokenRepository(CookieServerCsrfTokenRepository.withHttpOnlyFalse())
+                .and()
                 .authorizeExchange(exchanges -> exchanges
                         .anyExchange().authenticated()
                 )
@@ -44,10 +48,7 @@ public class SecurityConfiguration {
                         .opaqueToken(opaqueToken -> opaqueToken
                                 .introspector(new GoogleIntrospector())
                         )
-                )
-                .cors()
-                .and()
-                .csrf().disable();
+                );
 
         return http.build();
     }
