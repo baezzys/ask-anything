@@ -6,8 +6,11 @@ import lombok.*;
 @Data
 public class GoogleIntrospectionResponse{
     String azp;
+
     String aud;
+
     String sub;
+
     String scope;
 
     String name;

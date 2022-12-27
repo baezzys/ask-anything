@@ -18,7 +18,7 @@ public class Route {
         return builder.routes()
                 .route("post", r -> r.path("/post")
                         .filters(f -> f.filter(filterFactory.apply()))
-                        .uri("http://localhost:8040"))
+                        .uri("http://ask-anything-post:8040"))
                 .build();
     }
 }
