@@ -32,7 +32,9 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityWebFilterChain webFilterChain(ServerHttpSecurity http) {
-        http
+        http.cors()
+                .and()
+                .csrf().disable()
                 .formLogin().disable()
                 .httpBasic().disable()
                 .logout().disable()
@@ -44,10 +46,7 @@ public class SecurityConfiguration {
                         .opaqueToken(opaqueToken -> opaqueToken
                                 .introspector(new GoogleIntrospector())
                         )
-                )
-                .cors()
-                .and()
-                .csrf().disable();
+                );
 
         return http.build();
     }
