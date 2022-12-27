@@ -3,7 +3,7 @@ version: '0.1'
 services:
   ask-anything-db:
     platform: linux/x86_64
-    image: mysql:5.7
+    image: mysql:8.0.30
     container_name: ask-anything-db
     volumes:
       - ./ask-anything.sql:/docker-entrypoint-initdb.d/initdb.sql
@@ -11,15 +11,28 @@ services:
       - MYSQL_ROOT_PASSWORD=root
     ports:
       - "3300:3306"
-
+    command: 
+      mysqld --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+      
   ask-anything-gateway:
     container_name: ask-anything-gateway
     build:
-      context: .
+      context: ./spring-gateway
     ports:
-      - "8084:8080"
+      - "8060:8080"
     depends_on:
       - ask-anything-db
     restart: on-failure
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://ask-anything-db:3300/ask_anything?useSSL=false
+
+  ask-anything-post:
+    container_name: ask-anything-post
+    build:
+      context: ./spring-post
+    ports:
+      - "8040:8040"
+    depends_on:
+      - ask-anything-db
+      - ask-anything-gateway
+    restart: on-failure
+
+    
