@@ -4,14 +4,16 @@ metadata:
   name: mysql-pv
   labels:
     type: local
+    app: ask-anything
 spec:
   storageClassName: manual
   capacity:
-    storage: 5Gi
+    storage: 1Gi
   accessModes:
     - ReadWriteOnce
   hostPath:
     path: "/mnt/data"
+
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -20,7 +22,7 @@ metadata:
   labels:
     app: ask-anything
 spec:
-  storageClassName: standard
+  storageClassName: manual
   accessModes:
     - ReadWriteOnce
   resources:
@@ -65,15 +67,29 @@ spec:
           env:
             - name: MYSQL_ROOT_PASSWORD
               value: root
-            - name: MYSQL_DATABASE
-              value: ask_anything
           ports:
             - containerPort: 3306
-              name: mysql
           volumeMounts:
-            - mountPath: /var/lib/mysql
-              name: mysql-persistance-storage
+            - mountPath: /docker-entrypoint-initdb.d
+              name: mysql-initdb
       volumes:
+        - name: mysql-initdb
+          configMap:
+            name: mysql-initdb-config
         - name: mysql-persistance-storage
           persistentVolumeClaim:
             claimName: mysql-pv-claim
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-initdb-config
+  labels:
+    app: ask-anything
+data:
+  initdb.sql: |
+    CREATE database ask_anything;
+    use ask_anything;
+    CREATE TABLE `user` (`user_id` bigint NOT NULL AUTO_INCREMENT, `user_name` varchar(50) NOT NULL, `email` varchar(50) NOT NULL, PRIMARY KEY (`user_id`)) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+    CREATE TABLE `post` (`post_id` bigint NOT NULL AUTO_INCREMENT, `title` varchar(50) NOT NULL, `text` varchar(255) NOT NULL, `created_at` datetime NOT NULL, `modified_at` datetime NOT NULL, `user_id` bigint NOT NULL, PRIMARY KEY (`post_id`), KEY `user_id` (`user_id`), CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
