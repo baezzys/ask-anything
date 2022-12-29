@@ -29,6 +29,8 @@ dependencies {
     implementation 'org.springframework.security.oauth:spring-security-oauth2:2.5.2.RELEASE'
     implementation 'io.netty:netty-tcnative-boringssl-static:2.0.54.Final'
     implementation 'io.netty:netty-resolver-dns-native-macos:4.1.86.Final:osx-aarch_64'
+    implementation("io.springfox:springfox-boot-starter:3.0.0")
+    implementation("io.springfox:springfox-swagger-ui:3.0.0")
 
     implementation 'mysql:mysql-connector-java'
     implementation 'org.springframework.boot:spring-boot-starter-web'
