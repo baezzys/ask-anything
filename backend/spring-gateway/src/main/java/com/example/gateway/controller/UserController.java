@@ -24,9 +24,6 @@ public class UserController {
         String userEmail = principal.getAttributes().get("email").toString();
         String userName = principal.getAttributes().get("name").toString();
 
-        System.out.println(userEmail);
-        System.out.println(userName);
-
         return userService.findUserByEmail(userEmail)
                 .switchIfEmpty(userService.saveUser(User.builder().email(userEmail).userName(userName).build()))
                 .map(user -> ResponseEntity.ok("user is registered successfully"));
