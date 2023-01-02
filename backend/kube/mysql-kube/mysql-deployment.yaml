@@ -4,7 +4,7 @@ metadata:
   name: mysql-pv
   labels:
     type: local
-    app: ask-anything
+    app: mysql
 spec:
   storageClassName: manual
   capacity:
@@ -20,7 +20,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: mysql-pv-claim
   labels:
-    app: ask-anything
+    app: mysql
 spec:
   storageClassName: manual
   accessModes:
@@ -34,36 +34,37 @@ kind: Service
 metadata:
   name: ask-anything-db
   labels:
-    app: ask-anything
+    app: mysql
 spec:
-  ports:
-    - port: 3306
   selector:
-    app: ask-anything
+    app: mysql
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
   clusterIP: None
-
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ask-anything-db
-  labels:
-    app: ask-anything
+  name: mysql
 spec:
-  selector: # mySQL Pod Should contain same labels
+  selector:
     matchLabels:
-      app: ask-anything
+      app: mysql
   strategy:
     type: Recreate
   template:
     metadata:
       labels: # Must match 'Service' and 'Deployment' selectors
-        app: ask-anything
+        app: mysql
     spec:
       containers:
-        - name: ask-anything-db
+        - name: mysql
           image: mysql:8.0.30
           imagePullPolicy: "IfNotPresent"
+          args:
+            - "--default-authentication-plugin=mysql_native_password"
           env:
             - name: MYSQL_ROOT_PASSWORD
               value: root
@@ -86,7 +87,7 @@ kind: ConfigMap
 metadata:
   name: mysql-initdb-config
   labels:
-    app: ask-anything
+    app: mysql
 data:
   initdb.sql: |
     CREATE database ask_anything;
