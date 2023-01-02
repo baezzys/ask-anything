@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway
+  template:
+    metadata:
+      labels:
+        app: gateway
+    spec:
+      containers:
+        - name: gateway
+          image: wlsdn2165/ask-anything-gateway:latest
+          ports:
+            - containerPort: 8080
+          imagePullPolicy: Always
+          env:
+            - name: SPRING_R2DBC_URL
+              value: r2dbc:mysql://ask-anything-db:3306/ask_anything
+            - name: SPRING_R2DBC_USERNAME
+              value: root
+            - name: SPRING_R2DBC_PASSWORD
+              value: root
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ask-anything-gateway
+spec:
+  selector:
+    app: gateway
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+  type: LoadBalancer
