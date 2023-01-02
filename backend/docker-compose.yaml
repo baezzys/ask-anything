@@ -16,6 +16,7 @@ services:
       
   ask-anything-gateway:
     container_name: ask-anything-gateway
+    image: wlsdn2165/ask-anything-gateway:latest
     build:
       context: ./spring-gateway
     ports:
@@ -26,6 +27,7 @@ services:
 
   ask-anything-post:
     container_name: ask-anything-post
+    image: wlsdn2165/ask-anything-post:latest
     build:
       context: ./spring-post
     ports:
