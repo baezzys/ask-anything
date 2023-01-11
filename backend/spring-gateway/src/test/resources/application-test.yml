@@ -1,0 +1,9 @@
+spring:
+  r2dbc:
+    url: r2dbc:tc:mysql:///ask_anything?TC_IMAGE_TAG=8.0.30?TC_DAEMON=true?TC_INITSCRIPT=file:src/test/resources/schema.sql
+    username: root
+    password: root
+
+  config:
+    activate:
+      on-profile: test
