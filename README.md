@@ -21,3 +21,7 @@
 ##### 6주차 - 7주차
 
 - Test container 적용 R2dbc Container를 활용했고 init script를 통해서 schema와 test data 생성
+
+### architecture overview
+
+![ask_anything drawio (2)](https://user-images.githubusercontent.com/55564829/212544938-2adc86ad-50a1-45c3-ada1-8bd90f3abd5a.png)
