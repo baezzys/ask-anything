@@ -1,8 +1,8 @@
-import { css } from '@emotion/react';
-import LoginModal from 'components/common/LoginModal';
-import { useState } from 'react';
-import colors from 'utils/style/colors';
-import pxToRem from 'utils/style/pxToRem';
+import { css } from "@emotion/react";
+import LoginModal from "components/Modal/LoginModal";
+import { useState } from "react";
+import colors from "utils/style/colors";
+import pxToRem from "utils/style/pxToRem";
 
 const LoginButton = () => {
   const [isOpen, setIsOpen] = useState(false);

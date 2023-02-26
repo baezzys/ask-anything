@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
 const global = css`
   html,
@@ -89,6 +89,9 @@ const global = css`
     font: inherit;
     vertical-align: baseline;
   }
+  * {
+    font-size: 14px;
+  }
   /* HTML5 display-role reset for older browsers */
   article,
   aside,
@@ -118,7 +121,7 @@ const global = css`
   blockquote:after,
   q:before,
   q:after {
-    content: '';
+    content: "";
     content: none;
   }
   table {
