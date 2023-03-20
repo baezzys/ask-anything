@@ -8,11 +8,12 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Table("post")
 @Builder
-@Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Post {
@@ -26,6 +27,9 @@ public class Post {
 
     @Column("text")
     private String text;
+
+    @Transient
+    private List<Reply> replies;
 
     @Column("user_id")
     private Long userId;

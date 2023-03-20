@@ -5,9 +5,17 @@ public class PostDto {
 
     private String text;
 
+    private Long parentId;
+
     public PostDto(String title, String text) {
         this.title = title;
         this.text = text;
+    }
+
+    public PostDto(String title, String text, Long parentId) {
+        this.title = title;
+        this.text = text;
+        this.parentId = parentId;
     }
 
     public String getTitle() {
@@ -16,5 +24,9 @@ public class PostDto {
 
     public String getText() {
         return text;
+    }
+
+    public Long getParentId() {
+        return parentId;
     }
 }

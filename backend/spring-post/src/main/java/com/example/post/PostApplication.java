@@ -6,7 +6,6 @@ import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 
 @SpringBootApplication
-@EnableWebFluxSecurity
 @EnableR2dbcRepositories
 public class PostApplication {
 
