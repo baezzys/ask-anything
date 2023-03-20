@@ -15,7 +15,6 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import reactor.test.StepVerifier;
 
 @DataR2dbcTest
-@ExtendWith(SpringExtension.class)
 @ContextConfiguration(initializers = UserRepositoryTest.EnvInitializer.class)
 @Testcontainers
 class UserRepositoryTest {
@@ -39,7 +38,7 @@ class UserRepositoryTest {
     @Test
     void insert_user_test() {
 
-        userRepository.save(new User("jinwoobae", "wlsdn3578@gmail.com")).subscribe();
+        userRepository.save(new User("jinwoobae", "wlsdn3578@gmail.com")).block();
 
         userRepository.findByEmail("wlsdn3578@gmail.com")
                         .as(StepVerifier::create)

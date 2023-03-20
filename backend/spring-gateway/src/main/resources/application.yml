@@ -28,3 +28,4 @@ logging:
         security: DEBUG
   level:
     sql: debug
+
