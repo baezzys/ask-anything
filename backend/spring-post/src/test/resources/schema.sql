@@ -46,3 +46,12 @@ CREATE TABLE `post` (
                         CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+CREATE TABLE `reply` (
+                       `reply_id` BIGINT NOT NULL AUTO_INCREMENT,
+                       `content` VARCHAR(255),
+                       `post_id` BIGINT,
+                       PRIMARY KEY (`reply_id`),
+                       KEY `post_id` (`post_id`),
+                       CONSTRAINT `post_id` FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`)
+)  ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

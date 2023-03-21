@@ -1,24 +1,15 @@
 package com.example.post.service;
 
 import com.example.post.domain.Post;
+import com.example.post.domain.Reply;
 import com.example.post.domain.User;
 import com.example.post.dto.PostDto;
-import com.example.post.repository.PostRepository;
+import com.example.post.dto.ReplyDto;
 import com.example.post.repository.UserRepository;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.data.r2dbc.DataR2dbcTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -26,21 +17,22 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.test.context.ContextConfiguration;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import reactor.core.publisher.Flux;
-import reactor.test.StepVerifier;
 
 import java.util.List;
 
-@ContextConfiguration(initializers = PostServiceTest.EnvInitializer.class)
-@DataR2dbcTest(includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {PostService.class}))
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+@ContextConfiguration(initializers = ReplyServiceTest.EnvInitializer.class)
+@DataR2dbcTest(includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {ReplyService.class, PostService.class}))
 @Testcontainers
-public class PostServiceTest {
+public class ReplyServiceTest {
 
     @Autowired
-    PostService postService;
+    private ReplyService replyService;
 
     @Autowired
-    PostRepository postRepository;
+    private PostService postService;
 
     @Autowired
     UserRepository userRepository;
@@ -62,28 +54,22 @@ public class PostServiceTest {
     void addTestUser() {
         userRepository.save(new User("jinwoobae", "wlsdn3578@gmail.com")).block();
     }
-
     @Test
-    void getPostTest() {
-        for (int i = 0; i < 20; i++) {
-            PostDto post = new PostDto("test", "test");
-            postService.addPost(post, "wlsdn3578@gmail.com").block();
-        }
+    void getReplyTest() {
+        PostDto postDto = new PostDto("test", "test");
+        Post createdPost = postService.addPost(postDto, "wlsdn3578@gmail.com").block();
 
-        userRepository.findByEmail("wlsdn3578@gmail.com")
-                .as(StepVerifier::create)
-                .expectNextCount(1)
-                .verifyComplete();
+        ReplyDto replyDto = new ReplyDto("test");
 
-        List<Post> postList = postRepository.findAll().collectList().block();
+        Post updatedPost = postService.addReplyToPost(createdPost.getId(), replyDto).block();
 
-        System.out.println(postList.size());
+        List<Reply> replies = updatedPost.getReplies();
 
-        Flux<Post> postPage = postService.getPost("wlsdn3578@gmail.com", 0);
+        assertNotNull(replies);
+        assertEquals(1, replies.size());
+        assertEquals("test", replies.get(0).getContent());
 
-        StepVerifier.create(postPage)
-                .expectNextCount(10)
-                .expectComplete()
-                .verify();
     }
+
+
 }

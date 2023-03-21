@@ -8,6 +8,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -29,7 +30,7 @@ public class Post {
     private String text;
 
     @Transient
-    private List<Reply> replies;
+    private List<Reply> replies = new ArrayList<>();
 
     @Column("user_id")
     private Long userId;
@@ -53,6 +54,4 @@ public class Post {
                 .modifiedAt(LocalDateTime.now())
                 .build();
     }
-
-
 }
