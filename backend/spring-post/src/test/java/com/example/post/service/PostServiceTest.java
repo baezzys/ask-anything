@@ -77,8 +77,6 @@ public class PostServiceTest {
 
         List<Post> postList = postRepository.findAll().collectList().block();
 
-        System.out.println(postList.size());
-
         Flux<Post> postPage = postService.getPost("wlsdn3578@gmail.com", 0);
 
         StepVerifier.create(postPage)

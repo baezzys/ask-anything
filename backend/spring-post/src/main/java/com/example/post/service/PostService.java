@@ -9,9 +9,8 @@ import com.example.post.repository.PostRepository;
 import com.example.post.repository.ReplyRepository;
 import com.example.post.repository.UserRepository;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -23,6 +22,7 @@ public class PostService {
     private final UserRepository userRepository;
 
     private final ReplyRepository replyRepository;
+
 
 
     public PostService(PostRepository postRepository, UserRepository userRepository, ReplyRepository replyRepository) {

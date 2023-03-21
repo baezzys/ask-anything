@@ -30,7 +30,7 @@ public class Post {
     private String text;
 
     @Transient
-    private List<Reply> replies = new ArrayList<>();
+    private final List<Reply> replies = new ArrayList<>();
 
     @Column("user_id")
     private Long userId;
