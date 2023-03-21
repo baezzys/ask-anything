@@ -3,7 +3,7 @@ version: '0.1'
 services:
   ask-anything-db:
     platform: linux/x86_64
-    image: mysql:8.0.30
+    image: mysql:latest
     container_name: ask-anything-db
     volumes:
       - ./ask-anything.sql:/docker-entrypoint-initdb.d/initdb.sql
