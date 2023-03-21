@@ -25,23 +25,24 @@ set character_set_results=utf8;
 --
 -- Table structure for table `user`
 --
-
 DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
-  `user_id` bigint NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  PRIMARY KEY (`user_id`)
+                        `user_id` bigint NOT NULL AUTO_INCREMENT,
+                        `user_name` varchar(50) NOT NULL,
+                        `email` varchar(50) NOT NULL,
+                        PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Dumping data for table `user`
 --
 
 LOCK TABLES `user` WRITE;
+
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -60,23 +61,24 @@ DROP TABLE IF EXISTS `post`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `post` (
-  `post_id` bigint NOT NULL AUTO_INCREMENT,
-  `title` varchar(50) NOT NULL,
-  `text` varchar(255) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `modified_at` datetime NOT NULL,
-  `user_id` bigint NOT NULL,
-  PRIMARY KEY (`post_id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+                        `post_id` bigint NOT NULL AUTO_INCREMENT,
+                        `title` varchar(50) NOT NULL,
+                        `text` varchar(255) NOT NULL,
+                        `parent_id` bigint default NULL,
+                        `created_at` datetime NOT NULL,
+                        `modified_at` datetime NOT NULL,
+                        `user_id` bigint NOT NULL,
+                        PRIMARY KEY (`post_id`),
+                        KEY `user_id` (`user_id`),
+                        CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `post`
---
-
-LOCK TABLES `post` WRITE;
-/*!40000 ALTER TABLE `post` DISABLE KEYS */;
-/*!40000 ALTER TABLE `post` ENABLE KEYS */;
-UNLOCK TABLES;
+CREATE TABLE `reply` (
+                       `reply_id` BIGINT NOT NULL AUTO_INCREMENT,
+                       `content` VARCHAR(255),
+                       `post_id` BIGINT,
+                       PRIMARY KEY (`reply_id`),
+                       KEY `post_id` (`post_id`),
+                       CONSTRAINT `post_id` FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`)
+)  ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
